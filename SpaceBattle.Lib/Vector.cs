@@ -20,12 +20,12 @@ public class Vec
 
     public override bool Equals(object? obj)
     {
-        return obj is Vec vec &&
-               EqualityComparer<int[]>.Default.Equals(Values, vec.Values);
+        return obj is Vec vec && Values.SequenceEqual(vec.Values);
     }
 
     public override int GetHashCode()
-    {
-        return HashCode.Combine(Values);
-    }
+{
+    
+    return Values.Aggregate(17, (hash, value) => hash * 31 + value.GetHashCode());
+}
 }
