@@ -24,8 +24,8 @@ public class Vec
     }
 
     public override int GetHashCode()
-{
-    
-    return Values.Aggregate(17, (hash, value) => hash * 31 + value.GetHashCode());
-}
+    {
+
+        return Values.Aggregate(17, (hash, value) => hash * 31 + value.GetHashCode());
+    }
 }
