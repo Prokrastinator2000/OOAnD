@@ -4,7 +4,7 @@ namespace SpaceBattle.Tests;
 public class MoveTest
 {
     [Fact]
-    public void TestPositive()
+    public void TestPositionChange()
     {
         var moving = new Mock<IMoving>();
         moving.SetupGet(m => m.Position).Returns(new Vec(new int[] { 12, 5 }));
