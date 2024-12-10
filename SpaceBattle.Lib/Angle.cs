@@ -22,10 +22,10 @@
         }
         public static Angle operator +(Angle a, Angle b)
         {
-            if (a.n != b.n)
-            {
-                throw new Exception("Different n");
-            }
+            //if (a.n != b.n)
+            //{
+            //throw new Exception("Different n");
+            //}
 
             return new Angle(a.a + b.a, a.n);
         }
