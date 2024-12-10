@@ -4,6 +4,58 @@ namespace SpaceBattle.Tests;
 public class AngleTest
 {
     [Fact]
+    public void TestAngleAddPositive()
+    {
+        var angle1 = new Angle(5, 8);
+        var angle2 = new Angle(7, 8);
+
+        var result = angle1 + angle2;
+
+        Assert.Equal(new Angle(4, 8), result);
+    }
+    [Fact]
+    public void TestAngleEqualsPositive()
+    {
+        var angle1 = new Angle(15, 8);
+        var angle2 = new Angle(23, 8);
+
+        Assert.True(angle1.Equals(angle2));
+    }
+    [Fact]
+    public void TestAngleEqualsUsingASignPositive()
+    {
+        var angle1 = new Angle(15, 8);
+        var angle2 = new Angle(23, 8);
+
+        Assert.True(angle1 == angle2);
+    }
+    [Fact]
+    public void TestAngleEqualsNegative()
+    {
+        var angle1 = new Angle(1, 8);
+        var angle2 = new Angle(2, 8);
+
+        Assert.False(angle1.Equals(angle2));
+    }
+    [Fact]
+    public void TestAngleEqualsUsingASignNegative()
+    {
+        var angle1 = new Angle(1, 8);
+        var angle2 = new Angle(2, 8);
+
+        Assert.True(angle1 != angle2);
+    }
+    [Fact]
+    public void TestGetHashCode()
+    {
+        var angle = new Angle(15, 8);
+
+        var hashCode1 = angle.GetHashCode();
+        var hashCode2 = angle.GetHashCode();
+
+        Assert.Equal(hashCode1, hashCode2);
+    }
+    [Fact]
     public void TestSetAngle()
     {
         var angle = new Angle(45, 360);
@@ -52,36 +104,18 @@ public class AngleTest
         Assert.Equal(Math.Cos(0), result);
     }
     [Fact]
-    public void TestAngleAddPositive()
-    {
-        var angle1 = new Angle(5, 8);
-        var angle2 = new Angle(7, 8);
-
-        var result = angle1 + angle2;
-
-        Assert.Equal(new Angle(4, 8), result);
-    }
-    [Fact]
-    public void TestAngleConstructorWithNegativeAngle()
+    public void TestAngleConstructorNegativeAngle()
     {
         var angle = new Angle(-10, 360);
         Assert.Equal(-10, angle.a);
     }
     [Fact]
-    public void TestSetAngleWithNoChange()
+    public void TestSetAngleNoChange()
     {
         var angle = new Angle(45, 360);
         angle.SetAngle(45);
 
         Assert.Equal(45, angle.a);
-    }
-    [Fact]
-    public void TestAngleEqualsPositive()
-    {
-        var angle1 = new Angle(15, 8);
-        var angle2 = new Angle(23, 8);
-
-        Assert.True(angle1.Equals(angle2));
     }
     [Fact]
     public void TestAngleAddOverflow()
@@ -102,43 +136,7 @@ public class AngleTest
         Assert.Throws<Exception>(() => angle1 + angle2);
     }
     [Fact]
-    public void TestAngleEquals1Positive()
-    {
-        var angle1 = new Angle(15, 8);
-        var angle2 = new Angle(23, 8);
-
-        Assert.True(angle1 == angle2);
-    }
-    [Fact]
-    public void TestAngleEqualsNegative()
-    {
-        var angle1 = new Angle(1, 8);
-        var angle2 = new Angle(2, 8);
-
-        Assert.False(angle1.Equals(angle2));
-    }
-
-    [Fact]
-    public void TestAngleEquals1Negative()
-    {
-        var angle1 = new Angle(1, 8);
-        var angle2 = new Angle(2, 8);
-
-        Assert.True(angle1 != angle2);
-    }
-
-    [Fact]
-    public void TestGetHashCode()
-    {
-        var angle = new Angle(15, 8);
-
-        var hashCode1 = angle.GetHashCode();
-        var hashCode2 = angle.GetHashCode();
-
-        Assert.Equal(hashCode1, hashCode2);
-    }
-    [Fact]
-    public void TestSetAngleWithOutOfRangeValue()
+    public void TestSetAngleOutOfRangeValue()
     {
         var angle = new Angle(45, 360);
         angle.SetAngle(400);
@@ -146,7 +144,7 @@ public class AngleTest
     }
 
     [Fact]
-    public void TestAngleEqualsWithDifferentN()
+    public void TestAngleEqualsDifferentN()
     {
         var angle1 = new Angle(30, 360);
         var angle2 = new Angle(30, 720);
@@ -154,7 +152,7 @@ public class AngleTest
         Assert.False(angle1.Equals(angle2));
     }
     [Fact]
-    public void TestAngleConstructorWithLargeAngle()
+    public void TestAngleConstructorLargeAngle()
     {
         var angle = new Angle(370, 360);
         Assert.Equal(10, angle.a);

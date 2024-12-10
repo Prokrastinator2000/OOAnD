@@ -59,7 +59,7 @@ namespace SpaceBattle.Tests
             Assert.Throws<Exception>(() => cmd.Execute());
         }
         [Fact]
-        public void TestAngleSetThrowsExceptionOnMismatch()
+        public void TestAngleSetThrowsExceptionDifferentN()
         {
             var angle = new Angle(45, 360);
             var velocity = new Angle(90, 460);
