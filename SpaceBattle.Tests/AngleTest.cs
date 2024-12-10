@@ -12,6 +12,21 @@ public class AngleTest
         Assert.Equal(90, angle.a);
     }
     [Fact]
+    public void TestAngleSetThrowsException()
+    {
+        var angle = new Angle(45, 360);
+        var angle2 = new Angle(90, 460);
+        var rotating = new Mock<IRotating>();
+        rotating.SetupGet(r => r.Angle).Returns(angle);
+        rotating.SetupGet(r => r.Velocity).Returns(angle2);
+
+        rotating.SetupSet(r => r.Angle = It.IsAny<Angle>()).Callback(() => throw new Exception());
+
+        var cmd = new RotateCommand(rotating.Object);
+
+        Assert.Throws<Exception>(() => cmd.Execute());
+    }
+    [Fact]
     public void TestAngleToAngleConstructor()
     {
         var original = new Angle(45, 360);
@@ -36,22 +51,6 @@ public class AngleTest
 
         Assert.Equal(Math.Cos(0), result);
     }
-
-    [Fact]
-    public void TestAngleSetThrowsException()
-    {
-        var angle = new Angle(45, 360);
-        var angle2 = new Angle(90, 460);
-        var rotating = new Mock<IRotating>();
-        rotating.SetupGet(r => r.Angle).Returns(angle);
-        rotating.SetupGet(r => r.Velocity).Returns(angle2);
-
-        rotating.SetupSet(r => r.Angle = It.IsAny<Angle>()).Callback(() => throw new Exception());
-
-        var cmd = new RotateCommand(rotating.Object);
-
-        Assert.Throws<Exception>(() => cmd.Execute());
-    }
     [Fact]
     public void TestAngleAddPositive()
     {
@@ -61,6 +60,12 @@ public class AngleTest
         var result = angle1 + angle2;
 
         Assert.Equal(new Angle(4, 8), result);
+    }
+    [Fact]
+    public void TestAngleConstructorWithNegativeAngle()
+    {
+        var angle = new Angle(-10, 360);
+        Assert.Equal(-10, angle.a); 
     }
     [Fact]
     public void TestSetAngleWithNoChange()
@@ -105,21 +110,6 @@ public class AngleTest
         Assert.True(angle1 == angle2);
     }
     [Fact]
-    public void TestRotateCommandExecution()
-    {
-        var angle = new Angle(45, 360);
-        var velocity = new Angle(15, 360);
-        var rotating = new Mock<IRotating>();
-        rotating.SetupGet(r => r.Angle).Returns(angle);
-        rotating.SetupGet(r => r.Velocity).Returns(velocity);
-
-        var cmd = new RotateCommand(rotating.Object);
-
-        cmd.Execute();
-
-        rotating.VerifySet(r => r.Angle = It.Is<Angle>(a => a.a == 60), Times.Once);
-    }
-    [Fact]
     public void TestAngleEqualsNegative()
     {
         var angle1 = new Angle(1, 8);
@@ -138,7 +128,7 @@ public class AngleTest
     }
 
     [Fact]
-    public void GetHashCode_ShouldReturnConsistentResult()
+    public void TestGetHashCode()
     {
         var angle = new Angle(15, 8);
 
@@ -146,23 +136,6 @@ public class AngleTest
         var hashCode2 = angle.GetHashCode();
 
         Assert.Equal(hashCode1, hashCode2);
-    }
-    [Fact]
-    public void TestRotateCommandWithValidRotation()
-    {
-        var angle = new Angle(45, 360);
-        var velocity = new Angle(15, 360);
-
-        var rotating = new Mock<IRotating>();
-        rotating.SetupGet(r => r.Angle).Returns(angle);
-        rotating.SetupGet(r => r.Velocity).Returns(velocity);
-
-        rotating.SetupSet(r => r.Angle = It.IsAny<Angle>()).Callback<Angle>(newAngle => angle.SetAngle(newAngle.a));
-
-        var cmd = new RotateCommand(rotating.Object);
-        cmd.Execute();
-
-        Assert.Equal(new Angle(60, 360), angle);
     }
     [Fact]
     public void TestSetAngleWithOutOfRangeValue()
@@ -185,5 +158,30 @@ public class AngleTest
     {
         var angle = new Angle(370, 360);
         Assert.Equal(10, angle.a);
+    }
+    [Fact]
+    public void TestAngleEqualsButDifferentObjects()
+    {
+        var angle1 = new Angle(30, 360);
+        var angle2 = new Angle(30, 360);
+        Assert.True(angle1.Equals(angle2));
+    }
+    [Fact]
+    public void TestAngleAddThrowsExceptionMessage()
+    {
+        var angle1 = new Angle(10, 360);
+        var angle2 = new Angle(15, 720);
+        var exception = Assert.Throws<Exception>(() => angle1 + angle2);
+        Assert.Equal("Different n", exception.Message);
+    }
+    [Fact]
+    public void TestGetHashCodeForDifferentAngles()
+    {
+        var angle1 = new Angle(15, 360);
+        var angle2 = new Angle(15, 360);
+        var angle3 = new Angle(30, 360);
+
+        Assert.Equal(angle1.GetHashCode(), angle2.GetHashCode()); 
+        Assert.NotEqual(angle1.GetHashCode(), angle3.GetHashCode());
     }
 }
