@@ -32,12 +32,12 @@
 
         public double Sin()
         {
-            return Math.Sin(Math.PI * a / n);
+            return Math.Sin(2 * Math.PI * a / n);
         }
 
         public double Cos()
         {
-            return Math.Cos(Math.PI * a / n);
+            return Math.Cos(2 * Math.PI * a / n);
         }
 
         public override bool Equals(object? obj)
