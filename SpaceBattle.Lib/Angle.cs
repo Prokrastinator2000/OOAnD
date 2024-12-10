@@ -12,13 +12,13 @@
         }
         public Angle(Angle t)
         {
-            a = t.a;
+            a = t.a % t.n;
             n = t.n;
         }
 
         public void SetAngle(int newAngle)
         {
-            a = newAngle;
+            a = newAngle % n;
         }
         public static Angle operator +(Angle a, Angle b)
         {

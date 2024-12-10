@@ -147,4 +147,43 @@ public class AngleTest
 
         Assert.Equal(hashCode1, hashCode2);
     }
+    [Fact]
+    public void TestRotateCommandWithValidRotation()
+    {
+        var angle = new Angle(45, 360);
+        var velocity = new Angle(15, 360);
+
+        var rotating = new Mock<IRotating>();
+        rotating.SetupGet(r => r.Angle).Returns(angle);
+        rotating.SetupGet(r => r.Velocity).Returns(velocity);
+
+        rotating.SetupSet(r => r.Angle = It.IsAny<Angle>()).Callback<Angle>(newAngle => angle.SetAngle(newAngle.a));
+
+        var cmd = new RotateCommand(rotating.Object);
+        cmd.Execute();
+
+        Assert.Equal(new Angle(60, 360), angle);
+    }
+    [Fact]
+    public void TestSetAngleWithOutOfRangeValue()
+    {
+        var angle = new Angle(45, 360);
+        angle.SetAngle(400);
+        Assert.Equal(40, angle.a);
+    }
+
+    [Fact]
+    public void TestAngleEqualsWithDifferentN()
+    {
+        var angle1 = new Angle(30, 360);
+        var angle2 = new Angle(30, 720);
+
+        Assert.False(angle1.Equals(angle2));
+    }
+    [Fact]
+    public void TestAngleConstructorWithLargeAngle()
+    {
+        var angle = new Angle(370, 360);
+        Assert.Equal(10, angle.a);
+    }
 }
