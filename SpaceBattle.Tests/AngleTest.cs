@@ -65,7 +65,7 @@ public class AngleTest
     public void TestAngleConstructorWithNegativeAngle()
     {
         var angle = new Angle(-10, 360);
-        Assert.Equal(-10, angle.a); 
+        Assert.Equal(-10, angle.a);
     }
     [Fact]
     public void TestSetAngleWithNoChange()
@@ -181,7 +181,7 @@ public class AngleTest
         var angle2 = new Angle(15, 360);
         var angle3 = new Angle(30, 360);
 
-        Assert.Equal(angle1.GetHashCode(), angle2.GetHashCode()); 
+        Assert.Equal(angle1.GetHashCode(), angle2.GetHashCode());
         Assert.NotEqual(angle1.GetHashCode(), angle3.GetHashCode());
     }
 }
