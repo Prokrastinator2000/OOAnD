@@ -9,22 +9,23 @@ namespace SpaceBattle.Tests
         public void TestRotationPositive()
         {
             var angle = new Angle(45, 360);
+            var angle2 = new Angle(45, 360);
             var rotating = new Mock<IRotating>();
             rotating.SetupGet(r => r.Angle).Returns(angle);
-            rotating.SetupGet(r => r.Velocity).Returns(90);
+            rotating.SetupGet(r => r.Velocity).Returns(angle2);
 
             var cmd = new RotateCommand(rotating.Object);
             cmd.Execute();
-
-            rotating.VerifySet(r => r.Angle = It.Is<Angle>(v => v.a == 135 && v.n == 360));
+            rotating.VerifySet(r => r.Angle = It.Is<Angle>(v => v.a == 90 && v.n == 360));
         }
 
         [Fact]
         public void TestAngleGetThrowsException()
         {
+            var angle2 = new Angle(90, 360);
             var rotating = new Mock<IRotating>();
             rotating.SetupGet(r => r.Angle).Throws<Exception>();
-            rotating.SetupGet(r => r.Velocity).Returns(90);
+            rotating.SetupGet(r => r.Velocity).Returns(angle2);
 
             var cmd = new RotateCommand(rotating.Object);
 
@@ -46,9 +47,10 @@ namespace SpaceBattle.Tests
         public void TestAngleSetThrowsException()
         {
             var angle = new Angle(45, 360);
+            var angle2 = new Angle(90, 360);
             var rotating = new Mock<IRotating>();
             rotating.SetupGet(r => r.Angle).Returns(angle);
-            rotating.SetupGet(r => r.Velocity).Returns(90);
+            rotating.SetupGet(r => r.Velocity).Returns(angle2);
 
             rotating.SetupSet(r => r.Angle = It.IsAny<Angle>()).Callback(() => throw new Exception());
 

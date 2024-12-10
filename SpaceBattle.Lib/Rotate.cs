@@ -3,6 +3,6 @@
 public interface IRotating
 {
     public Angle Angle { get; set; }
-    public int Velocity { get; }
+    public Angle Velocity { get; }
 }
 
