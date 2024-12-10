@@ -93,14 +93,14 @@ public class AngleTest
 
         Assert.Equal(new Angle(10, 360), result);
     }
-    //[Fact]
-    //public void TestAngleAddThrowsExceptionForDifferentN()
-    //{
-    //    var angle1 = new Angle(5, 8);
-    //    var angle2 = new Angle(7, 9);
+    [Fact]
+    public void TestAngleAddThrowsExceptionForDifferentN()
+    {
+        var angle1 = new Angle(5, 8);
+        var angle2 = new Angle(7, 9);
 
-    //    Assert.Throws<Exception>(() => angle1 + angle2);
-    //}
+        Assert.Throws<Exception>(() => angle1 + angle2);
+    }
     [Fact]
     public void TestAngleEquals1Positive()
     {
@@ -166,14 +166,21 @@ public class AngleTest
         var angle2 = new Angle(30, 360);
         Assert.True(angle1.Equals(angle2));
     }
-    //[Fact]
-    //public void TestAngleAddThrowsExceptionMessage()
-    //{
-    //   var angle1 = new Angle(10, 360);
-    //   var angle2 = new Angle(15, 720);
-    //   var exception = Assert.Throws<Exception>(() => angle1 + angle2);
-    //   Assert.Equal("Different n", exception.Message);
-    //}
+    [Fact]
+    public void TestAngleEqualsButDifferentClass()
+    {
+        var angle1 = new Angle(30, 360);
+        var i = 6;
+        Assert.False(angle1.Equals(i));
+    }
+    [Fact]
+    public void TestAngleAddThrowsExceptionMessage()
+    {
+        var angle1 = new Angle(10, 360);
+        var angle2 = new Angle(15, 720);
+        var exception = Assert.Throws<Exception>(() => angle1 + angle2);
+        Assert.Equal("Different n", exception.Message);
+    }
     [Fact]
     public void TestGetHashCodeForDifferentAngles()
     {
