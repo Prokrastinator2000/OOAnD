@@ -1,4 +1,5 @@
-﻿namespace SpaceBattle.Lib
+﻿using App;
+namespace SpaceBattle.Lib
 {
     public class RotateCommand : ICommand
     {
@@ -9,7 +10,9 @@
             this.rotating = rotating;
         }
 
-        public void Execute()
+        //public IRotating Rotating => rotating;
+
+        public virtual void Execute()
         {
             rotating.Angle = new Angle(rotating.Angle + rotating.Velocity);
         }
