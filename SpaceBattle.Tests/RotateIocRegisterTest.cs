@@ -1,7 +1,7 @@
-using Moq;
-using App;
-using SpaceBattle.Lib;
+﻿using App;
 using App.Scopes;
+using Moq;
+using SpaceBattle.Lib;
 
 namespace SpaceBattle.Tests
 {

@@ -8,5 +8,5 @@ public class RegisterIoCDependencyRotateCommand : ICommand
         Ioc.Resolve<App.ICommand>("IoC.Register",
                             "Commands.Rotate",
         (object[] args) => new RotateCommand(Ioc.Resolve<IRotating>("Adapters.IRotatingObject", args))).Execute();
-    }   
+    }
 }
