@@ -1,7 +1,7 @@
 ﻿using App;
 using App.Scopes;
 using Moq;
-namespace SpaceBattle.Lib;
+namespace SpaceBattle.Lib.Tests;
 
 public class RegisterIoCDependencyMacroCommandTest
 {
