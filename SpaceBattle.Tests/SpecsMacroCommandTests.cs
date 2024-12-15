@@ -98,4 +98,12 @@ public class SpecsMacroCommandTests
 
         Assert.Throws<InvalidOperationException>(() => strategy.Resolve());
     }
+
+    [Fact]
+    public void Test_Resolve_MacroCommand_UnknownStrategy()
+    {
+        var strategy = new CreateMacroCommandStrategy("Macro.Ex");
+
+        Assert.Throws<InvalidOperationException>(() => strategy.Resolve());
+    }
 }

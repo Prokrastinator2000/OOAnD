@@ -59,7 +59,6 @@ public class CreateMacroCommandStrategy
     }
 }
 
-// Пример команд
 public class Command1 : ICommand
 {
     public virtual void Execute()
