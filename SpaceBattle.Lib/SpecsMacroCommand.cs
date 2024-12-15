@@ -15,12 +15,6 @@ public class CreateMacroCommandStrategy
         try
         {
             var commandNames = GetCommandNamesForSpec(_commandSpec);
-
-            if (commandNames == null || !commandNames.Any())
-            {
-                throw new InvalidOperationException($"No commands found for spec: {_commandSpec}");
-            }
-
             var commands = new List<ICommand>();
 
             foreach (var commandName in commandNames)
@@ -64,26 +58,6 @@ public class CreateMacroCommandStrategy
         throw new InvalidOperationException($"Strategy \"{commandSpec}\" not supported.");
     }
 }
-
-public interface IIocContainer
-{
-    T Resolve<T>(string name);
-}
-
-// public class IocContainer : IIocContainer
-// {
-//     private readonly Dictionary<string, object> _registrations = new();
-
-//     public void Register<T>(string name, T instance)
-//     {
-//         _registrations[name] = instance;
-//     }
-
-//     public T Resolve<T>(string name)
-//     {
-//         return _registrations.ContainsKey(name) ? (T)_registrations[name] : default;
-//     }
-// }
 
 // Пример команд
 public class Command1 : ICommand

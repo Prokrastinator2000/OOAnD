@@ -2,7 +2,7 @@
 using Moq;
 namespace SpaceBattle.Lib.Tests;
 
-public class MacroCommandTests
+public class SpecsMacroCommandTests
 {
     [Fact]
     public void Test_Resolve_MacroCommand_Success()
@@ -27,19 +27,32 @@ public class MacroCommandTests
                             "Commands.Rotate",
                             (object[] args) => cmd4.Object).Execute();
 
-        ICommand[] list = [cmd1.Object, cmd2.Object, cmd3.Object, cmd4.Object];
-        var SourceMacroCommand = new MacroCommand(list);
-
         var strategy = new CreateMacroCommandStrategy("Macro.Test");
-
         var macroCommand = strategy.Resolve();
-
         macroCommand.Execute();
 
-        cmd1.Verify(x => x.Execute());
-        cmd2.Verify(x => x.Execute());
-        cmd3.Verify(x => x.Execute());
-        cmd4.Verify(x => x.Execute());
+        cmd1.Verify(c => c.Execute(), Times.Once);
+        cmd2.Verify(c => c.Execute(), Times.Once);
+        cmd3.Verify(c => c.Execute(), Times.Once);
+        cmd4.Verify(c => c.Execute(), Times.Once);
+
+        strategy = new CreateMacroCommandStrategy("Specs.Move");
+        macroCommand = strategy.Resolve();
+        macroCommand.Execute();
+
+        cmd1.Verify(c => c.Execute(), Times.Once);
+        cmd2.Verify(c => c.Execute(), Times.Once);
+        cmd3.Verify(c => c.Execute(), Times.Exactly(2));
+        cmd4.Verify(c => c.Execute(), Times.Once);
+
+        strategy = new CreateMacroCommandStrategy("Specs.Rotate");
+        macroCommand = strategy.Resolve();
+        macroCommand.Execute();
+
+        cmd1.Verify(c => c.Execute(), Times.Once);
+        cmd2.Verify(c => c.Execute(), Times.Once);
+        cmd3.Verify(c => c.Execute(), Times.Exactly(2));
+        cmd4.Verify(c => c.Execute(), Times.Exactly(2));
     }
 
     [Fact]
