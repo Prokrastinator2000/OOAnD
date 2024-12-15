@@ -8,12 +8,6 @@ public class MacroCommand : ICommand
     {
         this.cmds = cmds;
     }
-
-    public ICommand[] ToArray()
-    {
-        return cmds;
-    }
-
     public void Execute()
     {
         var ICommandList = new List<ICommand>();
