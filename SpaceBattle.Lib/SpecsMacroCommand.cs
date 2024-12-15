@@ -93,7 +93,7 @@ public interface IIocContainer
 // Пример команд
 public class Command1 : ICommand
 {
-    public void Execute()
+    public virtual void Execute()
     {
         Console.WriteLine("Command1 executed.");
     }
@@ -101,7 +101,7 @@ public class Command1 : ICommand
 
 public class Command2 : ICommand
 {
-    public void Execute()
+    public virtual void Execute()
     {
         Console.WriteLine("Command2 executed.");
     }
@@ -109,14 +109,14 @@ public class Command2 : ICommand
 
 public class CommandRotate : ICommand
 {
-    public void Execute()
+    public virtual void Execute()
     {
         Console.WriteLine("Command.Rotate executed.");
     }
 }
 public class CommandMove : ICommand
 {
-    public void Execute()
+    public virtual void Execute()
     {
         Console.WriteLine("Command.Move executed.");
     }

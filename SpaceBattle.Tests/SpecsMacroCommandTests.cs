@@ -18,6 +18,7 @@ public class MacroCommandTests
         // Формируем Ioc
         Ioc.Resolve<ICommand>("IoC.Register",
                             "Command1",
+                            //(object[] args) => cmd1.Object).Execute();
                             (object[] args) => cmd1.Object).Execute();
         Ioc.Resolve<ICommand>("IoC.Register",
                             "Command2",
@@ -43,10 +44,10 @@ public class MacroCommandTests
         macroCommand.Execute();
 
         // Проверим вывод или другие ожидания
-        // cmd1.Verify(x => x.Execute());
-        // cmd2.Verify(x => x.Execute());
-        // cmd3.Verify(x => x.Execute());
-        // cmd4.Verify(x => x.Execute());
+         cmd1.Verify(x => x.Execute());
+         cmd2.Verify(x => x.Execute());
+         cmd3.Verify(x => x.Execute());
+         cmd4.Verify(x => x.Execute());
     }
 
     [Fact]
