@@ -5,6 +5,42 @@ namespace SpaceBattle.Lib.Tests;
 public class SpecsMacroCommandTests
 {
     [Fact]
+    public void Test_CommandsExecution()
+    {
+        var cmd1 = new Command1();
+        var cmd2 = new Command2();
+        var cmd3 = new CommandRotate();
+        var cmd4 = new CommandMove();
+
+        // cmd1.Execute();
+        // cmd2.Execute();
+        // cmd3.Execute();
+        // cmd4.Execute();
+
+        var stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+
+        cmd1.Execute();
+        var output = stringWriter.ToString().Trim();
+        Assert.Equal("Command1 executed.", output);
+        stringWriter.GetStringBuilder().Clear();
+
+        cmd2.Execute();
+        output = stringWriter.ToString().Trim();
+        Assert.Equal("Command2 executed.", output);
+        stringWriter.GetStringBuilder().Clear();
+
+        cmd3.Execute();
+        output = stringWriter.ToString().Trim();
+        Assert.Equal("Command.Rotate executed.", output);
+        stringWriter.GetStringBuilder().Clear();
+
+        cmd4.Execute();
+        output = stringWriter.ToString().Trim();
+        Assert.Equal("Command.Move executed.", output);
+    }
+
+    [Fact]
     public void Test_Resolve_MacroCommand_Success()
     {
         IEnumerable<string> CmdNames = new List<string> { "Command1", "Command2", "Command.Move", "Commands.Rotate" };
