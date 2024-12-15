@@ -2,7 +2,7 @@
 using Moq;
 namespace SpaceBattle.Lib.Tests;
 
-public class MCommandTests
+public class MacroCommandTests
 {
     [Fact]
     public void Execute_AllCommandsExecuted()
