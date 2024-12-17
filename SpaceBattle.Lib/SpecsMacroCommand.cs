@@ -19,7 +19,7 @@ public class CreateMacroCommandStrategy
 
             foreach (var commandName in commandNames)
             {
-                var command = Ioc.Resolve<ICommand>(commandName);
+                var command = Ioc.Resolve<ICommand>(commandName, args);
                 if (command == null)
                 {
                     throw new InvalidOperationException($"Command {commandName} could not be resolved.");
