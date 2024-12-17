@@ -16,9 +16,7 @@ public class CreateMacroCommandStrategy
         try
         {
             var commands = from cmd in commandNames
-                           let command = Ioc.Resolve<ICommand>(cmd, args)
-                           where command != null
-                           select command;
+                           select Ioc.Resolve<ICommand>(cmd, args);
 
             return new MacroCommand(commands.ToArray());
         }
