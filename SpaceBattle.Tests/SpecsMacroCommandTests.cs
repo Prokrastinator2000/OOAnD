@@ -2,6 +2,36 @@
 using Moq;
 namespace SpaceBattle.Lib.Tests;
 
+public class Command1 : ICommand
+{
+    public virtual void Execute()
+    {
+        Console.WriteLine("Command1 executed.");
+    }
+}
+
+public class Command2 : ICommand
+{
+    public virtual void Execute()
+    {
+        Console.WriteLine("Command2 executed.");
+    }
+}
+
+public class CommandRotate : ICommand
+{
+    public virtual void Execute()
+    {
+        Console.WriteLine("Command.Rotate executed.");
+    }
+}
+public class CommandMove : ICommand
+{
+    public virtual void Execute()
+    {
+        Console.WriteLine("Command.Move executed.");
+    }
+}
 public class SpecsMacroCommandTests
 {
     [Fact]
@@ -64,7 +94,7 @@ public class SpecsMacroCommandTests
                             (object[] args) => cmd4.Object).Execute();
 
         var strategy = new CreateMacroCommandStrategy("Macro.Test");
-        var macroCommand = strategy.Resolve();
+        var macroCommand = strategy.Resolve(new object[0]);
         macroCommand.Execute();
 
         cmd1.Verify(c => c.Execute(), Times.Once);
@@ -73,7 +103,7 @@ public class SpecsMacroCommandTests
         cmd4.Verify(c => c.Execute(), Times.Once);
 
         strategy = new CreateMacroCommandStrategy("Specs.Move");
-        macroCommand = strategy.Resolve();
+        macroCommand = strategy.Resolve(new object[0]);
         macroCommand.Execute();
 
         cmd1.Verify(c => c.Execute(), Times.Once);
@@ -82,7 +112,7 @@ public class SpecsMacroCommandTests
         cmd4.Verify(c => c.Execute(), Times.Once);
 
         strategy = new CreateMacroCommandStrategy("Specs.Rotate");
-        macroCommand = strategy.Resolve();
+        macroCommand = strategy.Resolve(new object[0]);
         macroCommand.Execute();
 
         cmd1.Verify(c => c.Execute(), Times.Once);
@@ -96,7 +126,7 @@ public class SpecsMacroCommandTests
     {
         var strategy = new CreateMacroCommandStrategy("Macro.Extended");
 
-        Assert.Throws<InvalidOperationException>(() => strategy.Resolve());
+        Assert.Throws<InvalidOperationException>(() => strategy.Resolve(new object[0]));
     }
 
     [Fact]
@@ -104,6 +134,6 @@ public class SpecsMacroCommandTests
     {
         var strategy = new CreateMacroCommandStrategy("Macro.Ex");
 
-        Assert.Throws<InvalidOperationException>(() => strategy.Resolve());
+        Assert.Throws<InvalidOperationException>(() => strategy.Resolve(new object[0]));
     }
 }

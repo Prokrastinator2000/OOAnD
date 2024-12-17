@@ -10,11 +10,11 @@ public class CreateMacroCommandStrategy
         _commandSpec = commandSpec;
     }
 
-    public ICommand Resolve()
+    public ICommand Resolve(object[] args)
     {
+        var commandNames = GetCommandNamesForSpec(_commandSpec);
         try
         {
-            var commandNames = GetCommandNamesForSpec(_commandSpec);
             var commands = new List<ICommand>();
 
             foreach (var commandName in commandNames)
@@ -56,36 +56,5 @@ public class CreateMacroCommandStrategy
         }
 
         throw new InvalidOperationException($"Strategy \"{commandSpec}\" not supported.");
-    }
-}
-
-public class Command1 : ICommand
-{
-    public virtual void Execute()
-    {
-        Console.WriteLine("Command1 executed.");
-    }
-}
-
-public class Command2 : ICommand
-{
-    public virtual void Execute()
-    {
-        Console.WriteLine("Command2 executed.");
-    }
-}
-
-public class CommandRotate : ICommand
-{
-    public virtual void Execute()
-    {
-        Console.WriteLine("Command.Rotate executed.");
-    }
-}
-public class CommandMove : ICommand
-{
-    public virtual void Execute()
-    {
-        Console.WriteLine("Command.Move executed.");
     }
 }
