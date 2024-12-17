@@ -15,18 +15,9 @@ public class CreateMacroCommandStrategy
         var commandNames = GetCommandNamesForSpec(_commandSpec);
         try
         {
-            var commands = new List<ICommand>();
-
-            foreach (var commandName in commandNames)
-            {
-                var command = Ioc.Resolve<ICommand>(commandName, args);
-                if (command == null)
-                {
-                    throw new InvalidOperationException($"Command {commandName} could not be resolved.");
-                }
-
-                commands.Add(command);
-            }
+            var commands = from cmd in commandNames
+                           where Ioc.Resolve<ICommand>(cmd, args) != null
+                           select Ioc.Resolve<ICommand>(cmd, args);
 
             return new MacroCommand(commands.ToArray());
         }

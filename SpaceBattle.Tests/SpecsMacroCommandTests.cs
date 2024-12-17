@@ -42,11 +42,6 @@ public class SpecsMacroCommandTests
         var cmd3 = new CommandRotate();
         var cmd4 = new CommandMove();
 
-        // cmd1.Execute();
-        // cmd2.Execute();
-        // cmd3.Execute();
-        // cmd4.Execute();
-
         var stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
 
