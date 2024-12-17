@@ -10,12 +10,13 @@ public class Vec
 
     public static Vec operator +(Vec a, Vec b)
     {
-        for (var i = 0; i < a.Values.Length; i++)
+        if (a.Values.Length != b.Values.Length)
         {
-            a.Values[i] += b.Values[i];
+            throw new ArgumentException("Vectors dimensions are different");
         }
 
-        return a;
+        var SumValues = a.Values.Zip(b.Values, (x, y) => x + y).ToArray();
+        return new Vec(SumValues);
     }
 
     public override bool Equals(object? obj)
@@ -27,5 +28,24 @@ public class Vec
     {
 
         return Values.Aggregate(17, (hash, value) => hash * 31 + value.GetHashCode());
+    }
+    public static bool operator ==(Vec a, Vec b)
+    {
+        if (ReferenceEquals(a, b))
+        {
+            return true;
+        }
+
+        if (a.Values.Length != b.Values.Length)
+        {
+            return false;
+        }
+
+        return a.Values.SequenceEqual(b.Values);
+    }
+
+    public static bool operator !=(Vec a, Vec b)
+    {
+        return !(a == b);
     }
 }
