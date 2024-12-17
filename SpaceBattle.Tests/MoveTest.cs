@@ -8,11 +8,13 @@ public class MoveTest
     {
         var moving = new Mock<IMoving>();
         moving.SetupGet(m => m.Position).Returns(new Vec(new int[] { 12, 5 }));
-        moving.SetupGet(m => m.Velocity).Returns(new Vec(new int[] { -7, 3 }));
+        moving.SetupGet(m => m.Velocity).Returns(new Vec(new int[] { -4, 1 }));
         var cmd = new MoveCommand(moving.Object);
+        var expected = new Vec(new int[] { 8, 6 });
         cmd.Execute();
+        Console.WriteLine(moving.Object.Position.Values[0]);
+        moving.VerifySet(m => m.Position = It.Is<Vec>(m => m.Equals(new Vec(new int[] { 8, 6 }))));
 
-        moving.VerifySet(m => m.Position = It.Is<Vec>(v => v.Values[0] == 5 && v.Values[1] == 8));
     }
 
     [Fact]
