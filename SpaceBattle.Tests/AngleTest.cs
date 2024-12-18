@@ -90,18 +90,16 @@ public class AngleTest
     [Fact]
     public void TestSin()
     {
-        var angle = new Angle(90, 360);
-        var result = angle.Sin();
+        var result = Math.Sin(new Angle(90, 360));
 
         Assert.Equal(Math.Sin(Math.PI / 2), result);
     }
     [Fact]
     public void TestCos()
     {
-        var angle = new Angle(0, 360);
-        var result = angle.Cos();
+        var result = Math.Cos(new Angle(90, 360));
 
-        Assert.Equal(Math.Cos(0), result);
+        Assert.Equal(Math.Cos(Math.PI / 2), result);
     }
     [Fact]
     public void TestAngleConstructorNegativeAngle()

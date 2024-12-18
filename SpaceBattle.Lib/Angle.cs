@@ -30,14 +30,9 @@
             return new Angle(a.a + b.a, a.n);
         }
 
-        public double Sin()
+        public static implicit operator double(Angle a)
         {
-            return Math.Sin(2 * Math.PI * a / n);
-        }
-
-        public double Cos()
-        {
-            return Math.Cos(2 * Math.PI * a / n);
+            return 2 * Math.PI * a.a / a.n;
         }
 
         public override bool Equals(object? obj)
