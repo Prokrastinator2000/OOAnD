@@ -2,78 +2,17 @@
 using Moq;
 namespace SpaceBattle.Lib.Tests;
 
-public class Command1 : ICommand
-{
-    public virtual void Execute()
-    {
-        Console.WriteLine("Command1 executed.");
-    }
-}
-
-public class Command2 : ICommand
-{
-    public virtual void Execute()
-    {
-        Console.WriteLine("Command2 executed.");
-    }
-}
-
-public class CommandRotate : ICommand
-{
-    public virtual void Execute()
-    {
-        Console.WriteLine("Command.Rotate executed.");
-    }
-}
-public class CommandMove : ICommand
-{
-    public virtual void Execute()
-    {
-        Console.WriteLine("Command.Move executed.");
-    }
-}
 public class SpecsMacroCommandTests
 {
-    [Fact]
-    public void Test_CommandsExecution()
-    {
-        var cmd1 = new Command1();
-        var cmd2 = new Command2();
-        var cmd3 = new CommandRotate();
-        var cmd4 = new CommandMove();
-
-        var stringWriter = new StringWriter();
-        Console.SetOut(stringWriter);
-
-        cmd1.Execute();
-        var output = stringWriter.ToString().Trim();
-        Assert.Equal("Command1 executed.", output);
-        stringWriter.GetStringBuilder().Clear();
-
-        cmd2.Execute();
-        output = stringWriter.ToString().Trim();
-        Assert.Equal("Command2 executed.", output);
-        stringWriter.GetStringBuilder().Clear();
-
-        cmd3.Execute();
-        output = stringWriter.ToString().Trim();
-        Assert.Equal("Command.Rotate executed.", output);
-        stringWriter.GetStringBuilder().Clear();
-
-        cmd4.Execute();
-        output = stringWriter.ToString().Trim();
-        Assert.Equal("Command.Move executed.", output);
-    }
-
     [Fact]
     public void Test_Resolve_MacroCommand_Success()
     {
         IEnumerable<string> CmdNames = new List<string> { "Command1", "Command2", "Command.Move", "Commands.Rotate" };
 
-        var cmd1 = new Mock<Command1>();
-        var cmd2 = new Mock<Command2>();
-        var cmd3 = new Mock<CommandMove>();
-        var cmd4 = new Mock<CommandRotate>();
+        var cmd1 = new Mock<ICommand>();
+        var cmd2 = new Mock<ICommand>();
+        var cmd3 = new Mock<ICommand>();
+        var cmd4 = new Mock<ICommand>();
 
         Ioc.Resolve<ICommand>("IoC.Register",
                             "Command1",
