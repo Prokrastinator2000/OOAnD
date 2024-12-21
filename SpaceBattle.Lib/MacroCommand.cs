@@ -10,7 +10,6 @@ public class MacroCommand : ICommand
     }
     public void Execute()
     {
-        var ICommandList = cmds.ToList<ICommand>();
-        ICommandList.ForEach(c => c.Execute());
+        cmds.ToList().ForEach(c => c.Execute());
     }
 }
