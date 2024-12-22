@@ -12,7 +12,13 @@ public class RegisterIoCDependencyMacroMoveRotateTests
         Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Set", iocScope).Execute();
     }
     [Fact]
-    public void Execute()
+    public void Test_Register_MacroMoveRotate_Failure()
+    {
+        var strategy = new CreateMacroCommandStrategy("Macro.Move");
+        Assert.Throws<Exception>(() => strategy.Resolve(new object[0]));
+    }
+    [Fact]
+    public void TTest_Register_MacroMoveRotate_Success()
     {
         var cmd1 = new Mock<ICommand>();
         var cmd2 = new Mock<ICommand>();
