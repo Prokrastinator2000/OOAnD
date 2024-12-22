@@ -4,15 +4,14 @@ public class RegisterIoCDependencyMacroMoveRotate : ICommand
 {
     public void Execute()
     {
-        RegisterIoCDepedencyMacroByStrategy("Move");
-        RegisterIoCDepedencyMacroByStrategy("Rotate");
-    }
-    private void RegisterIoCDepedencyMacroByStrategy(string StrategyName)
-    {
-        var CreateMacroMove = new CreateMacroCommandStrategy(StrategyName);
+        var CreateMacroMove = new CreateMacroCommandStrategy("Macro.Move");
         Ioc.Resolve<App.ICommand>("IoC.Register",
-                    "Macro." + StrategyName,
+                    "Macro.Move",
                     (object[] args) => CreateMacroMove.Resolve(args)).Execute();
 
+        CreateMacroMove = new CreateMacroCommandStrategy("Macro.Rotate");
+        Ioc.Resolve<App.ICommand>("IoC.Register",
+                    "Macro.Rotate",
+                    (object[] args) => CreateMacroMove.Resolve(args)).Execute();
     }
 }
