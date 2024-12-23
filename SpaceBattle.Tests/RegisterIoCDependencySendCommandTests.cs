@@ -9,8 +9,8 @@ public class RegisterIoCDependencySendCommandTests
     public RegisterIoCDependencySendCommandTests()
     {
         new InitCommand().Execute();
-        var IoCScope = Ioc.Resolve<object>("IoC.Scope.Create");
-        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Set", IoCScope).Execute();
+        var iocScope = Ioc.Resolve<object>("IoC.Scope.Create");
+        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Set", iocScope).Execute();
     }
     [Fact]
     public void ExecuteTest()
