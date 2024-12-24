@@ -16,7 +16,7 @@ namespace SpaceBattle.Lib
         [Fact]
         public void CorrectlyResolvesStartCommand()
         {
-            
+
             var mockOrder = new Mock<IDictionary<string, object>>();
             mockOrder.Setup(o => o["Action"]).Returns("SomeAction");
             mockOrder.Setup(o => o["Args"]).Returns(new object[] { });
@@ -24,11 +24,9 @@ namespace SpaceBattle.Lib
 
             var registerIoCDependencyActionsStart = new RegisterIoCDependencyActionsStart();
 
-            
             registerIoCDependencyActionsStart.Execute();
             var resolvedCommand = Ioc.Resolve<ICommand>("Actions.Start", mockOrder.Object);
 
-            
             Assert.IsType<StartCommand>(resolvedCommand);
         }
     }

@@ -17,7 +17,7 @@ namespace SpaceBattle.Tests
         [Fact]
         public void StopCommand_Should_Inject_Cancel_Command()
         {
-            
+
             var mockInjectable = new Mock<ICommandInjectable>();
             var mockCancel = new Mock<ICommand>();
             var mockState = new Dictionary<string, object>();
@@ -32,11 +32,9 @@ namespace SpaceBattle.Tests
             order.Setup(m => m["Action"]).Returns("TestAction");
             order.Setup(m => m["Key"]).Returns("Test");
 
-            
             var stopAction = new StopCommand(order.Object);
             stopAction.Execute();
 
-            
             mockInjectable.Verify(i => i.Inject(mockCancel.Object), Times.Once);
         }
     }

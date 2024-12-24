@@ -16,18 +16,16 @@ namespace SpaceBattle.Lib
         [Fact]
         public void CorrectlyResolvesStopCommand()
         {
-            
+
             var mockOrder = new Mock<IDictionary<string, object>>();
             mockOrder.Setup(o => o["Action"]).Returns("SomeAction");
             mockOrder.Setup(o => o["Key"]).Returns("someKey");
 
             var registerIoCDependencyActionsStop = new RegisterIoCDependencyActionsStop();
 
-            
             registerIoCDependencyActionsStop.Execute();
             var resolvedCommand = Ioc.Resolve<ICommand>("Actions.Stop", mockOrder.Object);
 
-            
             Assert.IsType<StopCommand>(resolvedCommand);
         }
     }

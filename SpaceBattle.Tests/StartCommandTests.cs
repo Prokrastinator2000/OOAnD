@@ -9,7 +9,7 @@ namespace SpaceBattle.Lib
         [Fact]
         public void StartCommandExecutionTest()
         {
-            
+
             new InitCommand().Execute();
             var scope = Ioc.Resolve<object>("IoC.Scope.Create");
             Ioc.Resolve<ICommand>("IoC.Scope.Current.Set", scope).Execute();
@@ -32,11 +32,9 @@ namespace SpaceBattle.Lib
             order.Setup(o => o["Args"]).Returns(new object[] { });
             order.Setup(o => o["Key"]).Returns("someKey");
 
-            
             var command = new StartCommand(order.Object);
             command.Execute();
 
-            
             mockConfigurable.Verify(c => c.Inject(It.IsAny<ICommand>()), Times.Once);
             mockSender.Verify(c => c.Execute(), Times.Once);
         }
