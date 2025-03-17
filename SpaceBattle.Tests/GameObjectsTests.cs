@@ -28,7 +28,8 @@ public class GameObjectsTests
         RegisterAddGameObject.Execute();
 
         var item = new object();
-        var uuid = Ioc.Resolve<string>("Game.Object.Add", item);
+        var uuid = Ioc.Resolve<string>("Game.Object.id.Generate", item);
+        Ioc.Resolve<ICommand>("Game.Object.Add", uuid, item).Execute();
 
         var repository = (IDictionary<string, object>)Ioc.Resolve<object>("Game.Object.Repository");
         Assert.True(repository.ContainsKey(uuid));
@@ -47,12 +48,14 @@ public class GameObjectsTests
         RegisterRemoveGameObject.Execute();
 
         var item = new object();
-        var uuid = Ioc.Resolve<string>("Game.Object.Add", item);
+        var uuid = Ioc.Resolve<string>("Game.Object.id.Generate", item);
+        Ioc.Resolve<ICommand>("Game.Object.Add", uuid, item).Execute();
 
         var repository = (IDictionary<string, object>)Ioc.Resolve<object>("Game.Object.Repository");
         Assert.True(repository.ContainsKey(uuid));
 
-        Ioc.Resolve<object>("Game.Object.Remove", uuid);
+        var removeCommand = Ioc.Resolve<ICommand>("Game.Object.Remove", uuid);
+        removeCommand.Execute();
 
         Assert.False(repository.ContainsKey(uuid));
     }
@@ -73,7 +76,8 @@ public class GameObjectsTests
         RegisterGameObject.Execute();
 
         var item = new object();
-        var uuid = Ioc.Resolve<string>("Game.Object.Add", item);
+        var uuid = Ioc.Resolve<string>("Game.Object.id.Generate");
+        Ioc.Resolve<ICommand>("Game.Object.Add", uuid, item).Execute();
 
         var retrievedItem = Ioc.Resolve<object>("Game.Object", uuid);
 

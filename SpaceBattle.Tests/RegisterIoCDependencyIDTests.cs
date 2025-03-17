@@ -18,8 +18,8 @@ public class RegisterIoCDependencyUuidGenerateTests
         var registerUuidGenerate = new RegisterIoCDependencyUuidGenerate();
         registerUuidGenerate.Execute();
 
-        var uuid1 = Ioc.Resolve<string>("Uuid.Generate");
-        var uuid2 = Ioc.Resolve<string>("Uuid.Generate");
+        var uuid1 = Ioc.Resolve<string>("Game.Object.id.Generate");
+        var uuid2 = Ioc.Resolve<string>("Game.Object.id.Generate");
 
         Assert.False(string.IsNullOrEmpty(uuid1));
         Assert.False(string.IsNullOrEmpty(uuid2));

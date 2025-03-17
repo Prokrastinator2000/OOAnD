@@ -8,7 +8,7 @@ public class RegisterIoCDependencyUuidGenerate : ICommand
     {
         Ioc.Resolve<App.ICommand>(
             "IoC.Register",
-            "Uuid.Generate",
+            "Game.Object.id.Generate",
             (object[] args) => Guid.NewGuid().ToString()
         ).Execute();
     }

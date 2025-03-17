@@ -10,13 +10,6 @@ public class RegisterIoCDependencyAddGameObjectToRepository : ICommand
             "IoC.Register",
             "Game.Object.Add",
             (object[] args) =>
-            {
-                var uuid = Ioc.Resolve<string>("Uuid.Generate");
-
-                ((IDictionary<string, object>)Ioc.Resolve<object>("Game.Object.Repository")).Add(uuid, args[0]);
-
-                return uuid;
-            }
-        ).Execute();
+            new AddGameObjectCommand((string)args[0], args[1])).Execute();
     }
 }
