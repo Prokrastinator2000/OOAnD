@@ -16,7 +16,7 @@ public class AuthCommandTests
 
         // Act & Assert
         var exception = Assert.Throws<InvalidOperationException>(() => cmd.Execute());
-        Assert.NotNull(exception); // Проверяем, что исключение было выброшено
+        Assert.NotNull(exception);
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class AuthCommandTests
 
         // Act & Assert
         var exception = Record.Exception(() => cmd.Execute());
-        Assert.Null(exception); // Проверяем, что исключение не было выброшено
+        Assert.Null(exception);
     }
     [Fact]
     public void Execute_ThrowsException_WhenOwnerIdIsMissing()

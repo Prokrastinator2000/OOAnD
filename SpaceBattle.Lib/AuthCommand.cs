@@ -8,19 +8,18 @@ public class AuthCommand : ICommand
     }
     public void Execute()
     {
-        var isMatchFound = false; // Флаг для отслеживания совпадения
+        var isMatchFound = false;
 
         foreach (var item in _order.GameItem)
         {
             var properties = item.Value;
             if (properties.ContainsKey("OwnerId") && properties["OwnerId"].ToString() == _order.UserId)
             {
-                isMatchFound = true; // Найдено совпадение
-                break; // Прерываем цикл, так как совпадение уже найдено
+                isMatchFound = true;
+                break;
             }
         }
 
-        // Если совпадение не найдено, выбрасываем исключение
         if (!isMatchFound)
         {
             throw new InvalidOperationException();
