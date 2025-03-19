@@ -13,20 +13,20 @@ public class RegisterIoCDependencyUuidGenerateTests
     }
 
     [Fact]
-    public void GenerateUuidTest()
+    public void GenerateIDTest()
     {
-        var registerUuidGenerate = new RegisterIoCDependencyUuidGenerate();
+        var registerUuidGenerate = new RegisterIoCDependencyIDGenerate();
         registerUuidGenerate.Execute();
 
-        var uuid1 = Ioc.Resolve<string>("Game.Object.id.Generate");
-        var uuid2 = Ioc.Resolve<string>("Game.Object.id.Generate");
+        var ID1 = Ioc.Resolve<string>("Game.Object.id.Generate");
+        var ID2 = Ioc.Resolve<string>("Game.Object.id.Generate");
 
-        Assert.False(string.IsNullOrEmpty(uuid1));
-        Assert.False(string.IsNullOrEmpty(uuid2));
+        Assert.False(string.IsNullOrEmpty(ID1));
+        Assert.False(string.IsNullOrEmpty(ID2));
 
-        Assert.True(Guid.TryParse(uuid1, out _));
-        Assert.True(Guid.TryParse(uuid2, out _));
+        Assert.True(Guid.TryParse(ID1, out _));
+        Assert.True(Guid.TryParse(ID2, out _));
 
-        Assert.NotEqual(uuid1, uuid2);
+        Assert.NotEqual(ID1, ID2);
     }
 }

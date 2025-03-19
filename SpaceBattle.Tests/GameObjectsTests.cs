@@ -13,10 +13,34 @@ public class GameObjectsTests
     }
 
     [Fact]
+    public void GetObjectTest()
+    {
+        var registerIDGenerate = new RegisterIoCDependencyIDGenerate();
+        registerIDGenerate.Execute();
+
+        var RegisterGameObjectRepository = new RegisterIoCDependencyGameObjectRepository();
+        RegisterGameObjectRepository.Execute();
+
+        var RegisterAddGameObject = new RegisterIoCDependencyAddGameObjectToRepository();
+        RegisterAddGameObject.Execute();
+
+        var RegisterGameObject = new RegisterIoCDependencyGameObject();
+        RegisterGameObject.Execute();
+
+        var item = new object();
+        var ID = Ioc.Resolve<string>("Game.Object.id.Generate");
+        Ioc.Resolve<ICommand>("Game.Object.Add", ID, item).Execute();
+
+        var retrievedItem = Ioc.Resolve<object>("Game.Object", ID);
+
+        Assert.Same(item, retrievedItem);
+    }
+
+    [Fact]
     public void AddObjectTest()
     {
-        var registerUuidGenerate = new RegisterIoCDependencyUuidGenerate();
-        registerUuidGenerate.Execute();
+        var registerIDGenerate = new RegisterIoCDependencyIDGenerate();
+        registerIDGenerate.Execute();
 
         var RegisterGameObjectRepository = new RegisterIoCDependencyGameObjectRepository();
         RegisterGameObjectRepository.Execute();
@@ -28,13 +52,14 @@ public class GameObjectsTests
         RegisterAddGameObject.Execute();
 
         var item = new object();
-        var uuid = Ioc.Resolve<string>("Game.Object.id.Generate", item);
-        Ioc.Resolve<ICommand>("Game.Object.Add", uuid, item).Execute();
+        var ID = Ioc.Resolve<string>("Game.Object.id.Generate", item);
+        Ioc.Resolve<ICommand>("Game.Object.Add", ID, item).Execute();
 
         var repository = (IDictionary<string, object>)Ioc.Resolve<object>("Game.Object.Repository");
-        Assert.True(repository.ContainsKey(uuid));
-        Assert.Equal(item, repository[uuid]);
+        Assert.True(repository.ContainsKey(ID));
+        Assert.Equal(item, repository[ID]);
     }
+
     [Fact]
     public void RemoveObjectTest()
     {
@@ -48,39 +73,15 @@ public class GameObjectsTests
         RegisterRemoveGameObject.Execute();
 
         var item = new object();
-        var uuid = Ioc.Resolve<string>("Game.Object.id.Generate", item);
-        Ioc.Resolve<ICommand>("Game.Object.Add", uuid, item).Execute();
+        var ID = Ioc.Resolve<string>("Game.Object.id.Generate", item);
+        Ioc.Resolve<ICommand>("Game.Object.Add", ID, item).Execute();
 
         var repository = (IDictionary<string, object>)Ioc.Resolve<object>("Game.Object.Repository");
-        Assert.True(repository.ContainsKey(uuid));
+        Assert.True(repository.ContainsKey(ID));
 
-        var removeCommand = Ioc.Resolve<ICommand>("Game.Object.Remove", uuid);
+        var removeCommand = Ioc.Resolve<ICommand>("Game.Object.Remove", ID);
         removeCommand.Execute();
 
-        Assert.False(repository.ContainsKey(uuid));
-    }
-
-    [Fact]
-    public void GetObjectTest()
-    {
-        var registerUuidGenerate = new RegisterIoCDependencyUuidGenerate();
-        registerUuidGenerate.Execute();
-
-        var RegisterGameObjectRepository = new RegisterIoCDependencyGameObjectRepository();
-        RegisterGameObjectRepository.Execute();
-
-        var RegisterAddGameObject = new RegisterIoCDependencyAddGameObjectToRepository();
-        RegisterAddGameObject.Execute();
-
-        var RegisterGameObject = new RegisterIoCDependencyGameObject();
-        RegisterGameObject.Execute();
-
-        var item = new object();
-        var uuid = Ioc.Resolve<string>("Game.Object.id.Generate");
-        Ioc.Resolve<ICommand>("Game.Object.Add", uuid, item).Execute();
-
-        var retrievedItem = Ioc.Resolve<object>("Game.Object", uuid);
-
-        Assert.Same(item, retrievedItem);
+        Assert.False(repository.ContainsKey(ID));
     }
 }
