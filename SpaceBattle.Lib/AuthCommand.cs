@@ -8,19 +8,7 @@ public class AuthCommand : ICommand
     }
     public void Execute()
     {
-        var isMatchFound = false;
-
-        foreach (var item in _order.GameItem)
-        {
-            var properties = item.Value;
-            if (properties.ContainsKey("OwnerId") && properties["OwnerId"].ToString() == _order.UserId)
-            {
-                isMatchFound = true;
-                break;
-            }
-        }
-
-        if (!isMatchFound)
+        if (!_order.GameItem.Values.Any(properties => properties.ContainsKey("OwnerId") && properties["OwnerId"].ToString() == _order.UserId))
         {
             throw new InvalidOperationException();
         }
