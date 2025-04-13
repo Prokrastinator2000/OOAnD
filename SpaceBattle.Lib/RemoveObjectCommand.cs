@@ -5,12 +5,15 @@ namespace SpaceBattle.Lib;
 public class RemoveGameObjectCommand : ICommand
 {
     private readonly string uuid;
-    public RemoveGameObjectCommand(string uuid)
+    private readonly IDictionary<string, object> repository;
+    public RemoveGameObjectCommand(string uuid, IDictionary<string, object> repository)
     {
         this.uuid = uuid;
+
+        this.repository = repository;
     }
     public void Execute()
     {
-        Ioc.Resolve<IDictionary<string, object>>("Game.Object.Repository").Remove(uuid);
+        repository.Remove(uuid);
     }
 }

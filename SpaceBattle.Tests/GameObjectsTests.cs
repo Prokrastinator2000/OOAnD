@@ -29,7 +29,10 @@ public class GameObjectsTests
 
         var item = new object();
         var ID = Ioc.Resolve<string>("Game.Object.id.Generate");
-        Ioc.Resolve<ICommand>("Game.Object.Add", ID, item).Execute();
+
+        var repository = (IDictionary<string, object>)Ioc.Resolve<object>("Game.Object.Repository");
+
+        Ioc.Resolve<ICommand>("Game.Object.Add", ID, item, repository).Execute();
 
         var retrievedItem = Ioc.Resolve<object>("Game.Object", ID);
 
@@ -53,9 +56,11 @@ public class GameObjectsTests
 
         var item = new object();
         var ID = Ioc.Resolve<string>("Game.Object.id.Generate", item);
-        Ioc.Resolve<ICommand>("Game.Object.Add", ID, item).Execute();
 
         var repository = (IDictionary<string, object>)Ioc.Resolve<object>("Game.Object.Repository");
+
+        Ioc.Resolve<ICommand>("Game.Object.Add", ID, item, repository).Execute();
+
         Assert.True(repository.ContainsKey(ID));
         Assert.Equal(item, repository[ID]);
     }
@@ -74,12 +79,14 @@ public class GameObjectsTests
 
         var item = new object();
         var ID = Ioc.Resolve<string>("Game.Object.id.Generate", item);
-        Ioc.Resolve<ICommand>("Game.Object.Add", ID, item).Execute();
 
         var repository = (IDictionary<string, object>)Ioc.Resolve<object>("Game.Object.Repository");
+
+        Ioc.Resolve<ICommand>("Game.Object.Add", ID, item, repository).Execute();
+
         Assert.True(repository.ContainsKey(ID));
 
-        var removeCommand = Ioc.Resolve<ICommand>("Game.Object.Remove", ID);
+        var removeCommand = Ioc.Resolve<ICommand>("Game.Object.Remove", ID, repository);
         removeCommand.Execute();
 
         Assert.False(repository.ContainsKey(ID));
