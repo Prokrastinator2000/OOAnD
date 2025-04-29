@@ -13,7 +13,7 @@ namespace SpaceBattle.Lib
         }
         public void Execute()
         {
-            torpedo["Position"] = obj.Position + obj.Velocity;
+            torpedo["Position"] = obj.Position + obj.Velocity + obj.Impulse;
             torpedo["Velocity"] = obj.Velocity;
         }
     }

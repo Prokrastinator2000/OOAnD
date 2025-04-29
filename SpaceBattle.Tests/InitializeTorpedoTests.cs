@@ -23,6 +23,7 @@ public class ShootCommandTest
         var IShootingMock = new Mock<IShooting>();
         IShootingMock.SetupGet(m => m.Position).Returns(new Vec(new int[] { 12, 5 }));
         IShootingMock.SetupGet(m => m.Velocity).Returns(new Vec(new int[] { -2, 3 }));
+        IShootingMock.SetupGet(m => m.Impulse).Returns(new Vec(new int[] { -3, 5 }));
 
         var Torpedo = new Dictionary<string, object> { { "Position", new Vec(new int[] { 0, 0 }) }, { "Velocity", new Vec(new int[] { 0, 0 }) }, { "id", "123" } };
 
@@ -32,7 +33,7 @@ public class ShootCommandTest
         var ShootCommand = Ioc.Resolve<ICommand>("Game.Commands.ShootCommand", IShootingMock.Object);
         ShootCommand.Execute();
 
-        Assert.Equal(new Vec(new int[] { 10, 8 }), Torpedo["Position"]);
+        Assert.Equal(new Vec(new int[] { 7, 13 }), Torpedo["Position"]);
         Assert.Equal(new Vec(new int[] { -2, 3 }), Torpedo["Velocity"]);
         cmdMove.Verify(cmd => cmd.Execute(), Times.Exactly(1));
 
