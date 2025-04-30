@@ -15,4 +15,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Scriban" Version="6.2.1" />
+  </ItemGroup>
+
 </Project>
