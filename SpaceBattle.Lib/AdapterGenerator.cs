@@ -25,13 +25,12 @@ public class AdapterBuilder
 
         if (p.CanRead)
         {
-            get = $"return IoC.Resolve<{propertyTypeName}>(\"Game.{p.Name}.Get\", target);";
-            //get = $"Helow";
+            get = $"return Ioc.Resolve<{propertyTypeName}>(\"Game.{p.Name}.Get\", target);";
         }
 
         if (p.CanWrite)
         {
-            set = $"IoC.Resolve<_ICommand.ICommand>(\"Game.{p.Name}.Set\", target, value).Execute();";
+            set = $"Ioc.Resolve<ICommand>(\"Game.{p.Name}.Set\", target, value).Execute();";
         }
 
         _properties.Add(new PropertyTemplateModel
@@ -59,7 +58,9 @@ public class AdapterBuilder
 
     public string Build()
     {
-        const string templateText = @"class {{ adapter_name }}Adapter : {{ adapter_type_name }} {
+        const string templateText = @"namespace SpaceBattle.Lib;
+using App;
+class {{ adapter_name }}Adapter : {{ adapter_type_name }} {
             {{ target_type_name }} target;
             public {{ adapter_name }}Adapter({{ target_type_name }} target) => this.target = target;{{ for prop in properties }}
             public {{ prop.type }} {{ prop.name }} {
