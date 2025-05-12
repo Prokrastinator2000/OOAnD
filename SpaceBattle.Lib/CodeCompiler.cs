@@ -1,7 +1,7 @@
-using System.Reflection;
+﻿using System.Reflection;
+using App;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using App;
 
 public class Compiler
 {

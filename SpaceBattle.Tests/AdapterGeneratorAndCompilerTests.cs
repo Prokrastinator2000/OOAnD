@@ -86,9 +86,9 @@ public class AdapterGeneratorTests
     public void Build_WithGenericTargetType_GeneratesCorrectCode()
     {
         var builder = new AdapterBuilder(typeof(IMoving), typeof(List<string>));
-        
+
         var code = builder.Build();
-        
+
         Assert.Contains("List<String> target", code);
     }
 
@@ -102,8 +102,8 @@ public class AdapterGeneratorTests
             typeof(Vec)
         ).Replace("\r\n", "\n").Trim();
 
-        var compilationResult = Compiler.CompileGeneratedCode(generatedIMovingCode, 
-        typeof(IMoving), 
+        var compilationResult = Compiler.CompileGeneratedCode(generatedIMovingCode,
+        typeof(IMoving),
         typeof(Vec));
 
         var adapterType = compilationResult.GetType("SpaceBattle.Lib.IMovingAdapter");
@@ -119,7 +119,7 @@ public class AdapterGeneratorTests
 
         var exception = Assert.Throws<ArgumentNullException>(
             () => Compiler.CompileGeneratedCode(nullCode));
-        
+
         Assert.Equal("text", exception.ParamName);
     }
 }
