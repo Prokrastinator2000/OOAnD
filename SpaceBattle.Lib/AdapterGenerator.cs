@@ -60,6 +60,8 @@ public class AdapterBuilder
     {
         const string templateText = @"namespace SpaceBattle.Lib;
 using App;
+using System.Collections.Generic;
+using System;
 class {{ adapter_name }}Adapter : {{ adapter_type_name }} {
             {{ target_type_name }} target;
             public {{ adapter_name }}Adapter({{ target_type_name }} target) => this.target = target;{{ for prop in properties }}

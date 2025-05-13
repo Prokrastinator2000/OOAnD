@@ -15,7 +15,8 @@ public class Compiler
             MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location),
             MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
             MetadataReference.CreateFromFile(typeof(App.Ioc).Assembly.Location),
-            MetadataReference.CreateFromFile(typeof(ICommand).Assembly.Location)
+            MetadataReference.CreateFromFile(typeof(ICommand).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(IDictionary<string, object>).Assembly.Location)
         };
 
         foreach (var type in referencedTypes.Distinct())
