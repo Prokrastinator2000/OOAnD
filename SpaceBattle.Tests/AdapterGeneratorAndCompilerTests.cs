@@ -163,7 +163,15 @@ public class AdapterGeneratorTests
             );
         }).Execute();
 
-        var factory = new MovingObjectAdapterFactory();
+        Ioc.Resolve<ICommand>("IoC.Register", 
+            "Game.Adapter.InterfaceType", 
+            (object[] args) => typeof(IMoving)).Execute();
+
+        Ioc.Resolve<ICommand>("IoC.Register",
+            "Game.Adapter.TypeName",
+            (object[] args) => "SpaceBattle.Lib.IMovingAdapter").Execute();
+
+        var factory = new AdapterFactory();
         var position = new Vec(new[] { 1, 2 });
         var velocity = new Vec(new[] { 0, 1 });
 
