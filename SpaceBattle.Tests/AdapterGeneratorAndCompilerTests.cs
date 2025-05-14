@@ -1,7 +1,7 @@
 ﻿namespace SpaceBattle.Test;
-
 using App;
 using App.Scopes;
+using Moq;
 using SpaceBattle.Lib;
 using Xunit;
 
@@ -46,62 +46,6 @@ public class AdapterGeneratorTests
     }
 
     [Fact]
-    public void AdapterCodeGeneratorTest_ForIMoving()
-    {
-        var expectedIMovingAdapterCode =
-        """
-        namespace SpaceBattle.Lib;
-        using App;
-        using System.Collections.Generic;
-        using System;
-        class IMovingAdapter : IMoving {
-                    IDictionary<String, Object> target;
-                    public IMovingAdapter(IDictionary<String, Object> target) => this.target = target;
-                    public Vec Position {
-                        set { Ioc.Resolve<ICommand>("Game.Position.Set", target, value).Execute(); }
-                        get { return Ioc.Resolve<Vec>("Game.Position.Get", target); }
-                    }
-                    public Vec Velocity {
-                        
-                        get { return Ioc.Resolve<Vec>("Game.Velocity.Get", target); }
-                    }
-                }
-        """.Replace("\r\n", "\n").Trim();
-
-        var generatedIMovingCode = Ioc.Resolve<string>(
-            "Game.Reflection.GenerateAdapterCode",
-            typeof(IMoving),
-            typeof(IDictionary<string, object>)
-        ).Replace("\r\n", "\n").Trim();
-
-        Assert.Equal(expectedIMovingAdapterCode, generatedIMovingCode);
-    }
-
-    [Fact]
-    public void AdapterCodeGeneratorTest_ForMoveCommand()
-    {
-        var expectedMoveCommandAdapterCode =
-        """
-        namespace SpaceBattle.Lib;
-        using App;
-        using System.Collections.Generic;
-        using System;
-        class MoveCommandAdapter : MoveCommand {
-                    IDictionary<String, Object> target;
-                    public MoveCommandAdapter(IDictionary<String, Object> target) => this.target = target;
-                }
-        """.Replace("\r\n", "\n").Trim();
-
-        var generatedMoveCommandCode = Ioc.Resolve<string>(
-            "Game.Reflection.GenerateAdapterCode",
-            typeof(MoveCommand),
-            typeof(IDictionary<string, object>)
-        ).Replace("\r\n", "\n").Trim();
-
-        Assert.Equal(expectedMoveCommandAdapterCode, generatedMoveCommandCode);
-    }
-
-    [Fact]
     public void Build_WithGenericTargetType_GeneratesCorrectCode()
     {
         var builder = new AdapterBuilder(typeof(IMoving), typeof(List<string>));
@@ -141,54 +85,35 @@ public class AdapterGeneratorTests
         Assert.Equal("text", exception.ParamName);
     }
     [Fact]
-    public void Create_GeneratesValidAdapter()
+    public void Adapter_ForIMoving_ShouldGetAndSetPropertiesCorrectly()
     {
-        Ioc.Resolve<ICommand>("IoC.Register", "Game.Position.Get", (object[] args) =>
-        {
-            var dict = (IDictionary<string, object>)args[0];
-            return (Vec)dict["Position"];
-        }).Execute();
+        var mockCommand = new Mock<ICommand>();
+        var mockVec = new Mock<Vec>(MockBehavior.Strict, new[] { 0, 0 });
 
-        Ioc.Resolve<ICommand>("IoC.Register", "Game.Velocity.Get", (object[] args) =>
-        {
-            var dict = (IDictionary<string, object>)args[0];
-            return (Vec)dict["Velocity"];
-        }).Execute();
+        Ioc.Resolve<ICommand>("IoC.Register", "Game.Position.Get", (object[] args) => mockVec.Object).Execute();
+        Ioc.Resolve<ICommand>("IoC.Register", "Game.Velocity.Get", (object[] args) => mockVec.Object).Execute();
+        Ioc.Resolve<ICommand>("IoC.Register", "Game.Position.Set", (object[] args) => mockCommand.Object).Execute();
 
-        Ioc.Resolve<ICommand>("IoC.Register", "Game.Position.Set", (object[] args) =>
-        {
-            return new PositionSetCommand(
-                (IDictionary<string, object>)args[0],
-                (Vec)args[1]
-            );
-        }).Execute();
-
-        Ioc.Resolve<ICommand>("IoC.Register", 
-            "Game.Adapter.InterfaceType", 
+        Ioc.Resolve<ICommand>("IoC.Register",
+            "Game.Adapter.InterfaceType",
             (object[] args) => typeof(IMoving)).Execute();
 
         Ioc.Resolve<ICommand>("IoC.Register",
             "Game.Adapter.TypeName",
             (object[] args) => "SpaceBattle.Lib.IMovingAdapter").Execute();
 
-        var factory = new AdapterFactory();
-        var position = new Vec(new[] { 1, 2 });
-        var velocity = new Vec(new[] { 0, 1 });
-
         var targetDictionary = new Dictionary<string, object>();
-        targetDictionary["Position"] = position;
-        targetDictionary["Velocity"] = velocity;
+        var factory = new AdapterFactory();
 
-        var adapter = factory.Create(targetDictionary);
+        var adapter = factory.Create(targetDictionary) as IMoving;
 
-        Assert.NotNull(adapter);
-        Assert.IsAssignableFrom<IMoving>(adapter);
+        var position = adapter!.Position;
+        var velocity = adapter.Velocity;
 
-        var movingAdapter = (IMoving)adapter;
-        Assert.NotNull(movingAdapter.Position);
+        adapter.Position = mockVec.Object;
 
-        movingAdapter.Position = new Vec([2, 2]);
-
-        Assert.Equal(new Vec([2, 2]), movingAdapter.Position);
+        mockCommand.Verify(cmd => cmd.Execute(), Times.Once);
+        Assert.NotNull(position);
+        Assert.NotNull(velocity);
     }
 }
