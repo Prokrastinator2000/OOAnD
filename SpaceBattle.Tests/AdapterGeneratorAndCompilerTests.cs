@@ -29,20 +29,8 @@ public class AdapterGeneratorTests
         var iocScope = Ioc.Resolve<object>("IoC.Scope.Create");
         Ioc.Resolve<ICommand>("IoC.Scope.Current.Set", iocScope).Execute();
 
-        Ioc.Resolve<ICommand>("IoC.Register", "Game.Reflection.GenerateAdapterCode", (object[] args) =>
-        {
-            var adapterType = (Type)args[0];
-            var targetType = (Type)args[1];
-
-            var builder = new AdapterBuilder(adapterType, targetType);
-
-            foreach (var prop in adapterType.GetProperties())
-            {
-                builder.CreateProperty(prop);
-            }
-
-            return builder.Build();
-        }).Execute();
+        var RegisterGeneratorCommand = new RegisterIocDependencyGenerator();
+        RegisterGeneratorCommand.Execute();
     }
 
     [Fact]

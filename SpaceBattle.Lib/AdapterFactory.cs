@@ -6,7 +6,9 @@ public class AdapterFactory : IAdapterFactory
     public object Create(IDictionary<string, object> obj)
     {
         var interfaceType = Ioc.Resolve<Type>("Game.Adapter.InterfaceType");
-        var adapterTypeName = Ioc.Resolve<string>("Game.Adapter.TypeName");
+        // Возможно стоит изменить и вместо вытаскивания interfaceType из Ioc
+        // стоит его получать на вход?
+        var adapterTypeName = $"{interfaceType.FullName}Adapter";
         var generatedIMovingCode = Ioc.Resolve<string>(
             "Game.Reflection.GenerateAdapterCode",
             interfaceType,
