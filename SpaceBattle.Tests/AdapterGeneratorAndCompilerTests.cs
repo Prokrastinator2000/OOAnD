@@ -104,4 +104,23 @@ public class AdapterGeneratorTests
         Assert.NotNull(position);
         Assert.NotNull(velocity);
     }
+    [Fact]
+    public void Create_WhenAdapterRegisteredInIoC_ReturnsExistingAdapter()
+    {
+        var mockAdapter = new Mock<IMoving>();
+        var mockVec = new Mock<Vec>(new[] { 0, 0 });
+
+        Ioc.Resolve<ICommand>("IoC.Register", "Game.Adapter.InterfaceType",
+            (object[] args) => typeof(IMoving)).Execute();
+
+        Ioc.Resolve<ICommand>("IoC.Register", "SpaceBattle.Lib.IMovingAdapter",
+            (object[] args) => mockAdapter.Object).Execute();
+
+        var targetDictionary = new Dictionary<string, object>();
+        var factory = new AdapterFactory();
+
+        var adapter = factory.Create(targetDictionary);
+
+        Assert.Same(mockAdapter.Object, adapter);
+    }
 }
