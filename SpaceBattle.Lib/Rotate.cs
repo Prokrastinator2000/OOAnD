@@ -2,7 +2,7 @@
 
 public interface IRotating
 {
-    public Angle Angle { get; set; }
-    public Angle Velocity { get; }
+    Angle Angle { get; set; }
+    Angle Velocity { get; }
 }
 
