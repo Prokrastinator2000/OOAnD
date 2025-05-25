@@ -101,6 +101,7 @@ public class AdapterGeneratorTests
         adapter.Position = mockVec.Object;
 
         mockCommand.Verify(cmd => cmd.Execute(), Times.Once);
+
         Assert.NotNull(position);
         Assert.NotNull(velocity);
     }
